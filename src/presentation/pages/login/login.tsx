@@ -5,6 +5,7 @@ import Spinner from '@/presentation/components/spinner/spinner';
 
 import Styles from './login-styles.scss';
 import Input from '@/presentation/components/input/input';
+import FormStatus from '@/presentation/components/form-status/form-status';
 
 const Login: React.FC = () => {
   return <div className={Styles.login}>
@@ -15,10 +16,7 @@ const Login: React.FC = () => {
       <Input type='password' name='password' placeholder='Digite sua senha'/>
       <button className={Styles.submit} type='submit'>Entrar</button>
       <span className={Styles.link}>Criar conta</span>
-      <div className={Styles.errorWrap}>
-        <Spinner className={Styles.spinner}/>
-        <span className={Styles.error}>Error</span>
-      </div>
+      <FormStatus />
     </form>
     <Footer />
   </div>;
