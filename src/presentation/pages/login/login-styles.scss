@@ -39,28 +39,13 @@ button {
   flex-direction: column;
   height: 100vh;
   justify-content: space-between;
-  .header {
-    background-color: $primary;
-    display: flex;
-    flex-direction: column;
-    border-top: 40px solid $primaryDark;
-    align-items: center;
 
-    img {
-      margin-top: 40px;
-    }
-
-    h1 {
-      color: $white;
-      margin: 16px 0px 40px;
-    }
-  }
   .form {
     display: flex;
     flex-direction: column;
     width: 400px;
     background-color: $white;
-    padding: 40px;
+    padding: 16px;
     border-radius: 8px;
     align-self: center;
     box-shadow: 0px 1px 3px -1px $black;
@@ -113,9 +98,5 @@ button {
         color: $primaryLight;
       }
     }
-  }
-  .footer {
-    background-color: $primary;
-    height: 48px;
   }
 }
