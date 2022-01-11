@@ -30,6 +30,7 @@
     "@typescript-eslint/camelcase":"off",
     "@typescript-eslint/no-unused-vars": "off",
     "semi": "off",
-    "comma-dangle":"off"
+    "comma-dangle":"off",
+    "react/prop-types": "off"
   }
 }

@@ -34,7 +34,7 @@ module.exports = {
             },
           },
           {
-            loader: 'scss-loader',
+            loader: 'sass-loader',
           },
         ],
         exclude: /node_modules/,
@@ -42,9 +42,13 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: './public',
-    writeToDisk: true,
+    static: {
+      directory: './public',
+    },
     historyApiFallback: true,
+    devMiddleware: {
+      writeToDisk: true,
+    },
   },
   externals: {
     react: 'React',
