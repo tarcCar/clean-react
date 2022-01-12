@@ -57,9 +57,9 @@ describe('Login Component', () => {
     expect(emailStatus.textContent).toBe('🔴')
   })
 
-  test('Should show password error if Validation fails', () => {
+  test('Should show valid password state if validation succeeds', () => {
     const { sut, validationStub } = makeSut()
-
+    validationStub.errorMessage = null
     const { getByTestId } = sut
     const passwordInput = getByTestId('password')
 
@@ -71,7 +71,7 @@ describe('Login Component', () => {
 
     const passwordStatus = getByTestId('password-status')
 
-    expect(passwordStatus.title).toBe(validationStub.errorMessage)
-    expect(passwordStatus.textContent).toBe('🔴')
+    expect(passwordStatus.title).toBe('Tudo certo!')
+    expect(passwordStatus.textContent).toBe('🟢')
   })
 })
