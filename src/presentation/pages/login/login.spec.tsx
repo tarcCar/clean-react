@@ -4,7 +4,7 @@ import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-libr
 import Login from './login'
 import { ValidationStub, AuthenticationSpy } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
-
+import 'jest-localstorage-mock'
 type SutTypes ={
   sut: RenderResult
   authenticationSpy: AuthenticationSpy
@@ -67,6 +67,9 @@ const simulateStatusForField = (sut: RenderResult, fieldName: string, validation
 
 describe('Login Component', () => {
   afterEach(cleanup)
+  beforeEach(() => {
+    localStorage.clear()
+  })
   test('Should start with initial state', () => {
     const validationError = faker.random.words()
     const { sut } = makeSut({ validationError })
@@ -163,5 +166,12 @@ describe('Login Component', () => {
     expect(mainError.textContent).toBe(error.message)
 
     expect(errorWrap.childElementCount).toBe(1)
+  })
+
+  test('Should present error if Authentication fails', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    simulateValidSubmit(sut)
+    await waitFor(() => sut.getByTestId('form'))
+    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
   })
 })
