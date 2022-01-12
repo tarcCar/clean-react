@@ -4,7 +4,10 @@ import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-libr
 import Login from './login'
 import { ValidationStub, AuthenticationSpy } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
+import { createMemoryHistory } from 'history'
 import 'jest-localstorage-mock'
+import { Router } from 'react-router-dom'
+
 type SutTypes ={
   sut: RenderResult
   authenticationSpy: AuthenticationSpy
@@ -13,12 +16,16 @@ type SutTypes ={
 type SutParams = {
   validationError: string
 }
-
+const history = createMemoryHistory()
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   validationStub.errorMessage = params?.validationError
   const authenticationSpy = new AuthenticationSpy()
-  const sut = render(<Login validation={validationStub} authentication={authenticationSpy}/>)
+  const sut = render(
+    <Router location='/' navigator={history}>
+      <Login validation={validationStub} authentication={authenticationSpy}/>
+    </Router>
+  )
   return {
     sut,
     authenticationSpy
@@ -173,5 +180,13 @@ describe('Login Component', () => {
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
     expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+  })
+
+  test('Should go to sing up page', () => {
+    const { sut } = makeSut()
+    const register = sut.getByTestId('singup')
+    fireEvent.click(register)
+    expect(history.index).toBe(1)
+    expect(history.location.pathname).toBe('/singup')
   })
 })
