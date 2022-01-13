@@ -26,7 +26,7 @@ const Input: React.FC<Props> = (props: Props) => {
   }
 
   return <div className={Styles.inputWrap}>
-    <input data-testid={props.name} {...props} onFocus={enableInput} onChange={handleChange}/>
+    <input data-testid={props.name} {...props} readOnly onFocus={enableInput} onChange={handleChange}/>
     <span data-testid={`${props.name}-status`} title={getTitle()} className={Styles.status}>{getStatus()}</span>
   </div>
 }
