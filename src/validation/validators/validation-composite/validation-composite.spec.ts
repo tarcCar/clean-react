@@ -1,6 +1,6 @@
-import { FieldValidationSpy } from '@/validation/validators/test/mock-field-validation'
+import { FieldValidationSpy } from '@/validation/test'
 import { ValidationComposite } from './validation-composite'
-import faker, { fake } from 'faker'
+import faker from 'faker'
 type SutTypes = {
   sut: ValidationComposite
   fieldValidationsSpy: FieldValidationSpy[]
