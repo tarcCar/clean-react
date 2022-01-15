@@ -34,5 +34,6 @@
     "react/prop-types": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/method-signature-style": "off"
-  }
+  },
+  "ignorePatterns": ["eslint.json"]
 }
