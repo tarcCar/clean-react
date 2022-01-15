@@ -2,7 +2,7 @@ import React from 'react'
 import faker from 'faker'
 import { render, RenderResult, fireEvent, cleanup, waitFor } from '@testing-library/react'
 import { Login } from '@/presentation/pages'
-import { ValidationStub, AuthenticationSpy, SaveAccessTokenMock } from '@/presentation/test'
+import { ValidationStub, AuthenticationSpy, SaveAccessTokenMock, Helper } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
@@ -62,11 +62,6 @@ const populatePasswordField = (sut: RenderResult, password = faker.internet.pass
   })
 }
 
-const testErrorWrapChildCount = (sut: RenderResult, count: number): void => {
-  const errorWrap = sut.getByTestId('error-wrap')
-  expect(errorWrap.childElementCount).toBe(count)
-}
-
 const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
   const { getByTestId } = sut
 
@@ -75,13 +70,6 @@ const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.ema
   const form = getByTestId('form')
   fireEvent.submit(form)
   await waitFor(() => sut.getByTestId('form'))
-}
-
-const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
-  const emailStatus = sut.getByTestId(`${fieldName}-status`)
-
-  expect(emailStatus.title).toBe(validationError || 'Tudo certo!')
-  expect(emailStatus.textContent).toBe(validationError ? '🔴' : '🟢')
 }
 
 const testElementExists = (sut: RenderResult, fieldName: string): void => {
@@ -94,11 +82,6 @@ const testElementText = (sut: RenderResult, fieldName: string, text: string): vo
   expect(element.textContent).toBe(text)
 }
 
-const testButtonIsDisabled = (sut: RenderResult, fieldName: string, isDisabled: boolean): void => {
-  const button = sut.getByTestId(fieldName) as HTMLButtonElement
-  expect(button.disabled).toBe(isDisabled)
-}
-
 describe('Login Component', () => {
   afterEach(cleanup)
 
@@ -107,12 +90,10 @@ describe('Login Component', () => {
     const { sut } = makeSut({ validationError })
 
     const { getByTestId } = sut
-    testErrorWrapChildCount(sut, 0)
-
-    testButtonIsDisabled(sut, 'submit', true)
-
-    testStatusForField(sut, 'email', validationError)
-    testStatusForField(sut, 'password', validationError)
+    Helper.testChildCount(sut,'error-wrap', 0)
+    Helper.testButtonIsDisabled(sut, 'submit', true)
+    Helper.testStatusForField(sut, 'email', validationError)
+    Helper.testStatusForField(sut, 'password', validationError)
   })
 
   test('Should show email error if Validation fails', () => {
@@ -121,7 +102,7 @@ describe('Login Component', () => {
 
     populateEmailField(sut)
 
-    testStatusForField(sut, 'email', validationError)
+    Helper.testStatusForField(sut, 'email', validationError)
   })
 
   test('Should show valid password state if validation succeeds', () => {
@@ -129,7 +110,7 @@ describe('Login Component', () => {
 
     populatePasswordField(sut)
 
-    testStatusForField(sut, 'password')
+    Helper.testStatusForField(sut, 'password')
   })
 
   test('Should show valid email state if validation succeeds', () => {
@@ -137,7 +118,7 @@ describe('Login Component', () => {
 
     populateEmailField(sut)
 
-    testStatusForField(sut, 'email')
+    Helper.testStatusForField(sut, 'email')
   })
 
   test('Should enable submit button if form is valid', () => {
@@ -145,7 +126,7 @@ describe('Login Component', () => {
 
     populateEmailField(sut)
     populatePasswordField(sut)
-    testButtonIsDisabled(sut, 'submit', false)
+    Helper.testButtonIsDisabled(sut, 'submit', false)
   })
 
   test('Should show spinner on submit', async () => {
@@ -187,7 +168,7 @@ describe('Login Component', () => {
     jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
     await simulateValidSubmit(sut)
     testElementText(sut, 'main-error', error.message)
-    testErrorWrapChildCount(sut, 1)
+    Helper.testChildCount(sut,'error-wrap', 1)
   })
 
   test('Should should call SaveAccessToken on success', async () => {
@@ -205,7 +186,7 @@ describe('Login Component', () => {
     jest.spyOn(saveAccessTokenMock, 'save').mockReturnValueOnce(Promise.reject(error))
     await simulateValidSubmit(sut)
     testElementText(sut, 'main-error', error.message)
-    testErrorWrapChildCount(sut, 1)
+    Helper.testChildCount(sut,'error-wrap', 1)
   })
 
   test('Should go to sing up page', () => {
