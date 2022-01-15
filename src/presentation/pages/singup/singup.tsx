@@ -4,7 +4,7 @@ import { LoginHeader as Header, Footer, FormStatus, Input } from '@/presentation
 import Context from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation';
 import { AddAccount, SaveAccessToken } from '@/domain/usecases';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , Link } from 'react-router-dom';
 
 type Props = {
   validation?: Validation
@@ -80,7 +80,7 @@ const SingUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) =>
         <Input type='password' name='password' placeholder='Digite sua senha'/>
         <Input type='password' name='passwordConfirmation' placeholder='Confirme sua senha'/>
         <button data-testid="submit" disabled={!!(state.emailError || state.passwordError || state.nameError || state.passwordConfirmationError)} className={Styles.submit} type='submit'>Salvar</button>
-        <span className={Styles.link}>Voltar para login</span>
+        <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar para login</Link>
         <FormStatus />
       </form>
     </Context.Provider>
