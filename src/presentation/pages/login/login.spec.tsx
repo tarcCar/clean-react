@@ -158,9 +158,9 @@ describe('Login Component', () => {
 
   test('Should go to sing up page', () => {
     const { sut } = makeSut()
-    const register = sut.getByTestId('singup')
+    const register = sut.getByTestId('singup-link')
     fireEvent.click(register)
-    expect(history.index).toBe(1)
+    expect(history.index).toBe(0)
     expect(history.location.pathname).toBe('/singup')
   })
 })
