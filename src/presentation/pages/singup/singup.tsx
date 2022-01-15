@@ -3,14 +3,17 @@ import Styles from './singup-styles.scss';
 import { LoginHeader as Header, Footer, FormStatus, Input } from '@/presentation/components';
 import Context from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation';
-import { AddAccount } from '@/domain/usecases';
+import { AddAccount, SaveAccessToken } from '@/domain/usecases';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   validation?: Validation
   addAccount?: AddAccount
+  saveAccessToken?: SaveAccessToken
 }
 
-const SingUp: React.FC<Props> = ({ validation, addAccount }) => {
+const SingUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) => {
+  const history = useNavigate()
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -49,11 +52,15 @@ const SingUp: React.FC<Props> = ({ validation, addAccount }) => {
         ...state,
         isLoading: true
       })
-      await addAccount.add({
+      const account = await addAccount.add({
         name: state.name,
         email: state.email,
         password: state.password,
         passwordConfirmation: state.passwordConfirmation,
+      })
+      await saveAccessToken.save(account.accessToken)
+      history('/', {
+        replace: true
       })
     } catch (error) {
       setState({
