@@ -13,9 +13,10 @@ const SingUp: React.FC<Props> = ({ validation }) => {
     isLoading: false,
     name: '',
     email: '',
+    password: '',
     nameError: '',
     emailError: '',
-    passwordError: 'Campo obrigatório',
+    passwordError: '',
     passwordConfirmationError: 'Campo obrigatório',
     mainError: ''
   })
@@ -24,9 +25,10 @@ const SingUp: React.FC<Props> = ({ validation }) => {
     setState({
       ...state,
       nameError: validation.validate('name', state.name),
-      emailError: validation.validate('name', state.email)
+      emailError: validation.validate('name', state.email),
+      passwordError: validation.validate('name', state.password),
     })
-  }, [state.name, state.email])
+  }, [state.name, state.email, state.password])
 
   return <div className={Styles.singup}>
     <Header />
