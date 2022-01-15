@@ -25,8 +25,11 @@ const Login: React.FC<Props> = ({ validation, authentication , saveAccessToken }
   })
 
   useEffect(() => {
-    const emailError = validation.validate('name', state.email)
-    const passwordError = validation.validate('name', state.password)
+    const { email, password } = state
+    const formData = { email, password }
+
+    const emailError = validation.validate('name', formData)
+    const passwordError = validation.validate('password', formData)
     const isFormInvalid = !!(emailError || passwordError)
 
     setState({
