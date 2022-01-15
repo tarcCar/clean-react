@@ -1,7 +1,7 @@
 import React from 'react'
 import faker from 'faker'
 import { cleanup, fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
-import { SingUp } from '..'
+import { SignUp } from '..'
 import { Helper, ValidationStub, AddAccountSpy, SaveAccessTokenMock } from '@/presentation/test'
 import { EmailInUseError } from '@/domain/errors'
 import { createMemoryHistory } from 'history'
@@ -17,7 +17,7 @@ type SutParams = {
   validationError: string
 }
 
-const history = createMemoryHistory({ initialEntries: ['/singup'] })
+const history = createMemoryHistory({ initialEntries: ['/signup'] })
 
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
@@ -26,7 +26,7 @@ const makeSut = (params?: SutParams): SutTypes => {
   const saveAccessTokenMock = new SaveAccessTokenMock()
   const sut = render(
     <Router location='/' navigator={history}>
-      <SingUp
+      <SignUp
         validation={validationStub}
         addAccount={addAccountSpy}
         saveAccessToken={saveAccessTokenMock}

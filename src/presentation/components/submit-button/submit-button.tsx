@@ -5,7 +5,7 @@ type Props = {
   text: string
 }
 
-const SingUp: React.FC<Props> = ({ text }) => {
+const SignUp: React.FC<Props> = ({ text }) => {
   const { state } = useContext(Context)
 
   return <button data-testid="submit" disabled={state.isFormInvalid} type='submit'>
@@ -13,4 +13,4 @@ const SingUp: React.FC<Props> = ({ text }) => {
   </button>
 }
 
-export default SingUp;
+export default SignUp;

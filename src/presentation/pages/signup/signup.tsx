@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Styles from './singup-styles.scss';
+import Styles from './signup-styles.scss';
 import { LoginHeader as Header, Footer, FormStatus, Input, SubmitButton } from '@/presentation/components';
 import Context from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation';
@@ -12,7 +12,7 @@ type Props = {
   saveAccessToken?: SaveAccessToken
 }
 
-const SingUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) => {
+const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) => {
   const history = useNavigate()
   const [state, setState] = useState({
     isLoading: false,
@@ -74,7 +74,7 @@ const SingUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) =>
     }
   }
 
-  return <div className={Styles.singup}>
+  return <div className={Styles.signup}>
     <Header />
     <Context.Provider value={{ state, setState }} >
       <form data-testid="form" className={Styles.form} onSubmit={handleSubmit}>
@@ -92,4 +92,4 @@ const SingUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }) =>
   </div>;
 }
 
-export default SingUp;
+export default SignUp;
