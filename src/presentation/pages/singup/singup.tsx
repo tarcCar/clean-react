@@ -35,25 +35,32 @@ const SingUp: React.FC<Props> = ({ validation, addAccount }) => {
   }, [state.name, state.email, state.password, state.passwordConfirmation])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
-    if (state.isLoading ||
+    try {
+      event.preventDefault()
+      if (state.isLoading ||
       state.nameError ||
       state.emailError ||
       state.passwordError ||
       state.passwordConfirmationError
-    ) {
-      return
+      ) {
+        return
+      }
+      setState({
+        ...state,
+        isLoading: true
+      })
+      await addAccount.add({
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        passwordConfirmation: state.passwordConfirmation,
+      })
+    } catch (error) {
+      setState({
+        ...state,
+        mainError: error.message
+      })
     }
-    setState({
-      ...state,
-      isLoading: true
-    })
-    await addAccount.add({
-      name: state.name,
-      email: state.email,
-      password: state.password,
-      passwordConfirmation: state.passwordConfirmation,
-    })
   }
 
   return <div className={Styles.singup}>
