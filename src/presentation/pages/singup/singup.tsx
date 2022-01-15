@@ -14,6 +14,7 @@ const SingUp: React.FC<Props> = ({ validation }) => {
     name: '',
     email: '',
     password: '',
+    passwordConfirmation: '',
     nameError: '',
     emailError: '',
     passwordError: '',
@@ -27,8 +28,9 @@ const SingUp: React.FC<Props> = ({ validation }) => {
       nameError: validation.validate('name', state.name),
       emailError: validation.validate('name', state.email),
       passwordError: validation.validate('name', state.password),
+      passwordConfirmationError: validation.validate('passwordConfirmation', state.passwordConfirmation),
     })
-  }, [state.name, state.email, state.password])
+  }, [state.name, state.email, state.password, state.passwordConfirmation])
 
   return <div className={Styles.singup}>
     <Header />
