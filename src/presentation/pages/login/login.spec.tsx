@@ -125,7 +125,7 @@ describe('Login Component', () => {
     expect(authenticationSpy.callsCount).toBe(1)
   })
 
-  test('Should call Authentication if form is invalid', async () => {
+  test('Should not call Authentication if form is invalid', async () => {
     const validationError = faker.random.words()
     const { sut, authenticationSpy } = makeSut({ validationError })
 
@@ -137,7 +137,7 @@ describe('Login Component', () => {
   test('Should present error if Authentication fails', async () => {
     const { sut, authenticationSpy } = makeSut()
     const error = new InvalidCredentialsError()
-    jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
+    jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
     await simulateValidSubmit(sut)
     testElementText(sut, 'main-error', error.message)
     Helper.testChildCount(sut,'error-wrap', 1)
