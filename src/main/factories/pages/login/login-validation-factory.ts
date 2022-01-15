@@ -2,7 +2,7 @@ import React from 'react'
 import { Login } from '@/presentation/pages'
 import { ValidationComposite } from '@/validation/validators';
 import { ValidationBuilder } from '@/validation/validators/builder/validation-build';
-import { makeRemoteAuthentication } from '@/main/usecases/authentication/remote-authentication-factory';
+import { makeRemoteAuthentication } from '@/main/factories/usecases/authentication/remote-authentication-factory';
 import { Validation } from '@/presentation/protocols/validation';
 
 export const makeLoginValidation = (): Validation => {
