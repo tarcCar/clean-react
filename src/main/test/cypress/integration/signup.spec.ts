@@ -1,13 +1,16 @@
-import { testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../support/form-helper'
+import { testHttpCallsCount, testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../support/form-helper'
 import faker from 'faker'
 import { mockEmailInUseError, mockUnexpectedError, mockInvalidData, mockOk } from '../support/signup-mocks'
 
-const simulateValidSubmit = (): void => {
+const populateFields = (): void => {
   cy.getByTestId('name').focus().type(faker.name.findName())
   cy.getByTestId('email').focus().type(faker.internet.email())
   const password = faker.random.alphaNumeric(5)
   cy.getByTestId('password').focus().type(password)
   cy.getByTestId('passwordConfirmation').focus().type(password)
+}
+const simulateValidSubmit = (): void => {
+  populateFields()
   cy.getByTestId('submit').click()
 }
 
@@ -109,5 +112,12 @@ describe('SignUp', () => {
 
     testUrl('/')
     testLocalStorageItem('accessToken')
+  })
+
+  it('Should prevent multiple submit', () => {
+    mockOk()
+    populateFields()
+    cy.getByTestId('submit').dblclick()
+    testHttpCallsCount(1)
   })
 })
