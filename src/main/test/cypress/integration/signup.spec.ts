@@ -1,6 +1,6 @@
-import { testInputStatus, testMainError, testUrl } from '../support/form-helper'
+import { testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../support/form-helper'
 import faker from 'faker'
-import { mockEmailInUseError, mockUnexpectedError, mockInvalidData } from '../support/signup-mocks'
+import { mockEmailInUseError, mockUnexpectedError, mockInvalidData, mockOk } from '../support/signup-mocks'
 
 const simulateValidSubmit = (): void => {
   cy.getByTestId('name').focus().type(faker.name.findName())
@@ -98,5 +98,16 @@ describe('SignUp', () => {
 
     testMainError('Algo de errado aconteceu. tente novamente')
     testUrl('/signup')
+  })
+
+  it('Should present save accessToken if valid credentials are provided', () => {
+    mockOk()
+    simulateValidSubmit()
+
+    cy.getByTestId('main-error').should('not.exist')
+    cy.getByTestId('spinner').should('not.exist')
+
+    testUrl('/')
+    testLocalStorageItem('accessToken')
   })
 })
