@@ -6,11 +6,14 @@ export const testChildCount = (sut: RenderResult, fieldName: string, count: numb
   expect(element.childElementCount).toBe(count)
 }
 
-export const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
-  const fieldStatus = sut.getByTestId(`${fieldName}-status`)
+export const testStatusForField = (sut: RenderResult, fieldName: string, validationError: string = ''): void => {
+  const wrap = sut.getByTestId(`${fieldName}-wrap`)
+  const field = sut.getByTestId(fieldName)
+  const label = sut.getByTestId(`${fieldName}-label`)
 
-  expect(fieldStatus.title).toBe(validationError || 'Tudo certo!')
-  expect(fieldStatus.textContent).toBe(validationError ? '🔴' : '🟢')
+  expect(wrap.getAttribute('data-status')).toBe(validationError ? 'invalid' : 'valid')
+  expect(field.title).toBe(validationError)
+  expect(label.title).toBe(validationError)
 }
 
 export const testButtonIsDisabled = (sut: RenderResult, fieldName: string, isDisabled: boolean): void => {
