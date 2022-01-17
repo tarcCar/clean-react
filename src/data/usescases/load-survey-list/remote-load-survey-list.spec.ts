@@ -45,4 +45,14 @@ describe('RemoveLoadSurveyList', () => {
 
     expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  test('Should throw UnexpectedError if HttpPostClient return 500', () => {
+    const { sut, httpGetClientSpy } = makeSut()
+    httpGetClientSpy.response = {
+      statusCode: HttpStatusCode.serverError
+    }
+    const promise = sut.loadAll()
+
+    expect(promise).rejects.toThrow(new UnexpectedError())
+  })
 })
