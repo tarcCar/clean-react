@@ -2,6 +2,7 @@ import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpGetClientSpy } from '@/data/test'
 import { UnexpectedError } from '@/domain/errors'
 import { SurveyModel } from '@/domain/models'
+import { mockSurveyListModel } from '@/domain/test'
 import faker from 'faker'
 import { RemoteLoadSurveyList } from './remote-load-survey-list'
 
@@ -26,7 +27,7 @@ describe('RemoveLoadSurveyList', () => {
     expect(httpGetClientSpy.url).toBe(url)
   })
 
-  test('Should throw UnexpectedError if HttpPostClient return 403', () => {
+  test('Should throw UnexpectedError if HttpGetClient return 403', () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.forbidden
@@ -36,7 +37,7 @@ describe('RemoveLoadSurveyList', () => {
     expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  test('Should throw UnexpectedError if HttpPostClient return 404', () => {
+  test('Should throw UnexpectedError if HttpGetClient return 404', () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.notFound
@@ -46,7 +47,7 @@ describe('RemoveLoadSurveyList', () => {
     expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  test('Should throw UnexpectedError if HttpPostClient return 500', () => {
+  test('Should throw UnexpectedError if HttpGetClient return 500', () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.serverError
@@ -54,5 +55,17 @@ describe('RemoveLoadSurveyList', () => {
     const promise = sut.loadAll()
 
     expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('Should return a list of SurveyModels if HttpGetClient return 200', async () => {
+    const { sut, httpGetClientSpy } = makeSut()
+    const httpResult = mockSurveyListModel()
+    httpGetClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: httpResult
+    }
+    const surveyList = await sut.loadAll()
+
+    expect(surveyList).toEqual(httpResult)
   })
 })
