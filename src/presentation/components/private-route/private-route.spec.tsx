@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { PrivateRoute } from './private-route.'
+import { PrivateRoute } from './private-route'
 import { createMemoryHistory, MemoryHistory } from 'history'
 import { Route, Router, Routes } from 'react-router-dom'
 import { ApiContext } from '@/presentation/contexts'
