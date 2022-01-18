@@ -1,3 +1,5 @@
-export interface SaveAccessToken {
-  save(accessToken: string): Promise<void>
+import { AccountModel } from '../models';
+
+export interface UpdateCurrentAccount {
+  save(account: AccountModel): Promise<void>
 }

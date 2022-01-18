@@ -111,7 +111,7 @@ describe('SignUp', () => {
     cy.getByTestId('spinner').should('not.exist')
 
     testUrl('/')
-    testLocalStorageItem('accessToken')
+    testLocalStorageItem('account')
   })
 
   it('Should prevent multiple submit', () => {

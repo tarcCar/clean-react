@@ -78,7 +78,7 @@ describe('Login', () => {
     cy.getByTestId('spinner').should('not.exist')
 
     testUrl('/')
-    testLocalStorageItem('accessToken')
+    testLocalStorageItem('account')
   })
 
   it('Should present UnexpectedError if invalid data is returned', () => {
