@@ -33,7 +33,8 @@
     "comma-dangle":"off",
     "react/prop-types": "off",
     "@typescript-eslint/semi": "off",
-    "@typescript-eslint/method-signature-style": "off"
+    "@typescript-eslint/method-signature-style": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off"
   },
   "ignorePatterns": ["eslint.json"]
 }
