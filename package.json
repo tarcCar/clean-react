@@ -10,7 +10,7 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
-    "test:cypress":"cypress open",
+    "test:cypress": "cypress open",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install",
@@ -21,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.11.0",
+    "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@types/axios": "^0.14.0",
     "@types/faker": "^5.5.3",

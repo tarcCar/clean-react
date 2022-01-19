@@ -53,8 +53,8 @@ describe('Login Component', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
 
-    Helper.testChildCount('error-wrap', 0)
-    Helper.testButtonIsDisabled('submit', true)
+    expect(screen.getByTestId('submit')).toBeDisabled()
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
   })
@@ -86,14 +86,14 @@ describe('Login Component', () => {
 
     Helper.populateField('email')
     Helper.populateField('password')
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   test('Should show spinner on submit', async () => {
     makeSut()
 
     await simulateValidSubmit()
-    Helper.testElementExists('spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
 
   test('Should call Authentication with correct values', async () => {
@@ -127,8 +127,8 @@ describe('Login Component', () => {
     const error = new InvalidCredentialsError()
     jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
     await simulateValidSubmit()
-    Helper.testElementText('main-error', error.message)
-    Helper.testChildCount('error-wrap', 1)
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
   })
 
   test('Should should call SaveAccessToken on success', async () => {
