@@ -1,0 +1,13 @@
+@import '../../../../styles/colors.scss';
+.errorWrap {
+  display: flex;
+  flex-direction: column;
+  background-color: $white;
+  padding: 40px;
+  align-items: center;
+  text-align: center;
+  span {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+}
