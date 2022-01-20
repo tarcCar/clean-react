@@ -1,9 +1,7 @@
 import React from 'react';
-import { SurveyList } from '@/presentation/pages';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { makeLogin } from '../factories/pages/login/login-factory';
-import { makeSignUp } from '../factories/pages/signup/signup-factory';
+import { makeLogin, makeSignUp, makeSurveyList } from '../factories/pages';
 import { ApiContext } from '@/presentation/contexts';
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '../adapters/current-account-adapter';
 import { PrivateRoute } from '@/presentation/components';
@@ -19,7 +17,7 @@ const Router: React.FC = (props) => {
           <Route path='/login' element={makeLogin(props)} />
           <Route path='/signup' element={makeSignUp(props)} />
           <Route path='/' element={<PrivateRoute/>}>
-            <Route path='/' element={<SurveyList/>}/>
+            <Route path='/' element={makeSurveyList(props)}/>
           </Route>
         </Routes>
       </BrowserRouter>
