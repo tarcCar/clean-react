@@ -27,7 +27,7 @@ export const mockOk = (url: RegExp, method: Method, body: any): void => {
     url,
     {
       statusCode: 200,
-      body
+      fixture: body
     }).as('request')
 }
 

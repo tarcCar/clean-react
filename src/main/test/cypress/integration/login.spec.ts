@@ -1,7 +1,13 @@
 import faker from 'faker'
-import { testInputStatus, testMainError } from '../support/form-helper'
-import { testHttpCallsCount, testUrl, testLocalStorageItem } from '../support/helpers'
-import { mockInvalidCredentialsError, mockUnexpectedError, mockOk } from '../support/login-mocks'
+import { testInputStatus, testMainError } from '../utils/form-helper'
+import { testHttpCallsCount, testUrl, testLocalStorageItem } from '../utils/helpers'
+import * as Http from '../utils/http-mocks'
+
+const path = /login/
+
+export const mockInvalidCredentialsError = (): void => Http.mockUnauthorizedError(path)
+export const mockUnexpectedError = (): void => Http.mockServerError(path, 'POST')
+export const mockSuccess = (): void => Http.mockOk(path, 'POST', 'account')
 
 const populateFields = (): void => {
   cy.getByTestId('email').focus().type(faker.internet.email())
@@ -72,7 +78,7 @@ describe('Login', () => {
   })
 
   it('Should present save accessToken if valid credentials are provided', () => {
-    mockOk()
+    mockSuccess()
     simulateValidSubmit()
 
     cy.getByTestId('main-error').should('not.exist')
@@ -83,14 +89,14 @@ describe('Login', () => {
   })
 
   it('Should prevent multiple submit', () => {
-    mockOk()
+    mockSuccess()
     populateFields()
     cy.getByTestId('submit').dblclick()
     testHttpCallsCount(1)
   })
 
   it('Should not call submit if form is invalid', () => {
-    mockOk()
+    mockSuccess()
     cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
     testHttpCallsCount(0)
   })
