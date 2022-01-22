@@ -1,6 +1,7 @@
 import faker from 'faker'
-import { testInputStatus, testMainError, testHttpCallsCount, testUrl, testLocalStorageItem } from '../support/form-helper'
-import { mockInvalidCredentialsError, mockUnexpectedError, mockOk, mockInvalidData } from '../support/login-mocks'
+import { testInputStatus, testMainError } from '../support/form-helper'
+import { testHttpCallsCount, testUrl, testLocalStorageItem } from '../support/helpers'
+import { mockInvalidCredentialsError, mockUnexpectedError, mockOk } from '../support/login-mocks'
 
 const populateFields = (): void => {
   cy.getByTestId('email').focus().type(faker.internet.email())
@@ -79,16 +80,6 @@ describe('Login', () => {
 
     testUrl('/')
     testLocalStorageItem('account')
-  })
-
-  it('Should present UnexpectedError if invalid data is returned', () => {
-    mockInvalidData()
-    simulateValidSubmit()
-
-    cy.getByTestId('main-error').should('exist')
-
-    testMainError('Algo de errado aconteceu. tente novamente')
-    testUrl('/login')
   })
 
   it('Should prevent multiple submit', () => {

@@ -1,7 +1,7 @@
 import { Icon, IconName } from '@/presentation/components';
 import React from 'react';
 
-import Styles from 'item-styles.scss'
+import Styles from './item-styles.scss'
 import { LoadSurveyList } from '@/domain/usecases';
 
 type Props = {
