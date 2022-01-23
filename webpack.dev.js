@@ -32,6 +32,7 @@ module.exports = merge(common, {
       },
     ],
   },
+  devTool: 'inline-source-map',
   devServer: {
     static: {
       directory: './public',
